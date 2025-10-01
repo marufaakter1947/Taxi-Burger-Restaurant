@@ -7,8 +7,16 @@ const loadCategory = ()=> {
 
 const loadFoods= (id) =>{
 //    console.log("Load foods called" , id) ;
-   const url = `https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`;
+   const url =id ? `https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`
+   :`https://taxi-kitchen-api.vercel.app/api/v1/foods/random`;
 //    console.log(url);
+// 1.sobaike niye eshe active class remove kore daw
+const catBtns = document.querySelectorAll(".btn-category");
+catBtns.forEach(btn => btn.classList.remove("active"));
+// 2.jake click  hoise take active class daw 
+const currentBtn = document.getElementById(`cat-btn-${id}`);
+    console.log(currentBtn);
+    currentBtn.classList.add("active");
 fetch(url).then(res => res.json())
 .then(data => displayFoods(data.foods));
 }
@@ -16,12 +24,17 @@ fetch(url).then(res => res.json())
 const loadFoodDetails = (id) =>{
     // console.log("Food details dekhte chai",id);
     const url = ` https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`;
+    
     fetch(url).then((res)=>res.json())
     .then((data) => displayDetails(data.details));
+
 }
+
+
 
 const loadRandomData = ()=>{
     const url = "https://taxi-kitchen-api.vercel.app/api/v1/foods/random";
+    
     fetch(url).then(res => res.json())
     .then(data => displayFoods(data.foods));
 }
@@ -36,7 +49,7 @@ for(let cat of categories){
     // 2. create html element 
     const categoryCard = document.createElement("div");
     categoryCard.innerHTML = `
-    <button onClick="loadFoods(${cat.id})" class="btn justify-start btn-block shadow btn-category">
+    <button id="cat-btn-${cat.id}" onclick="loadFoods(${cat.id})" class="btn justify-start btn-block shadow btn-category">
             <img
               src="${cat.categoryImg}"
               alt=""
@@ -112,4 +125,4 @@ document.getElementById("my_modal_3").showModal();
 
 
 loadCategory();
-loadRandomData();
+loadFoods();
