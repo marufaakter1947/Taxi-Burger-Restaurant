@@ -13,6 +13,13 @@ fetch(url).then(res => res.json())
 .then(data => displayFoods(data.foods));
 }
 
+const loadFoodDetails = (id) =>{
+    // console.log("Food details dekhte chai",id);
+    const url = ` https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`;
+    fetch(url).then((res)=>res.json())
+    .then((data) => displayDetails(data.details));
+}
+
 const loadRandomData = ()=>{
     const url = "https://taxi-kitchen-api.vercel.app/api/v1/foods/random";
     fetch(url).then(res => res.json())
@@ -50,7 +57,7 @@ foodContainer.innerHTML="";
 foods.forEach((food) => {
     const foodCard = document.createElement("div");
     foodCard.innerHTML= `
-     <div class="p-5 bg-white flex gap-3 shadow rounded-xl">
+     <div onclick="loadFoodDetails(${food.id})" class="p-5 bg-white flex gap-3 shadow rounded-xl">
             <div class="img flex-1">
               <img
                 src="${food.foodImg}"
@@ -81,6 +88,28 @@ foods.forEach((food) => {
     foodContainer.append(foodCard);
 })
 }
+const displayDetails = (food)=>{
+// console.log(food)
+const detailsContainer = document.getElementById("details-container");
+detailsContainer.innerHTML="";
+detailsContainer.innerHTML = `
+<div>
+<h2 class="text-3xl font-bold text-center mb-2">${food.title}</h2>
+</div>
+<div class="">
+      <img class="rounded-lg mb-4 "  src="${food.foodImg}" alt="">
+    </div>
+    <div class="flex justify-between items-center">
+    <div class="badge badge-primary">
+    ${food.area}
+    </div>
+    <a href="${food.video}" target="_blank" class="btn btn-warning ">Watch Video</a>
+    </div>
+`;
+document.getElementById("my_modal_3").showModal();
+
+}
+
 
 loadCategory();
 loadRandomData();
