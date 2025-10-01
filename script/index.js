@@ -13,6 +13,12 @@ fetch(url).then(res => res.json())
 .then(data => displayFoods(data.foods));
 }
 
+const loadRandomData = ()=>{
+    const url = "https://taxi-kitchen-api.vercel.app/api/v1/foods/random";
+    fetch(url).then(res => res.json())
+    .then(data => displayFoods(data.foods));
+}
+
 const displayCategory = (categories) => {
 // console.log(categories);
 // 1.jekhane rakhbo seta k dhore nia asbo 
@@ -77,3 +83,4 @@ foods.forEach((food) => {
 }
 
 loadCategory();
+loadRandomData();
