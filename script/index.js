@@ -6,17 +6,19 @@ const loadCategory = ()=> {
 };
 
 const loadFoods= (id) =>{
+    document.getElementById("food-container").classList.add("hidden");
+    document.getElementById("loading-spinner").classList.remove("hidden");
 //    console.log("Load foods called" , id) ;
    const url =id ? `https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`
    :`https://taxi-kitchen-api.vercel.app/api/v1/foods/random`;
 //    console.log(url);
 // 1.sobaike niye eshe active class remove kore daw
 const catBtns = document.querySelectorAll(".btn-category");
-catBtns.forEach(btn => btn.classList.remove("active"));
+catBtns.forEach(btn => btn?.classList?.remove("active"));
 // 2.jake click  hoise take active class daw 
 const currentBtn = document.getElementById(`cat-btn-${id}`);
     console.log(currentBtn);
-    currentBtn.classList.add("active");
+    currentBtn?.classList?.add("active");
 fetch(url).then(res => res.json())
 .then(data => displayFoods(data.foods));
 }
@@ -100,6 +102,8 @@ foods.forEach((food) => {
     `;
     foodContainer.append(foodCard);
 })
+  document.getElementById("food-container").classList.remove("hidden");
+    document.getElementById("loading-spinner").classList.add("hidden");
 }
 const displayDetails = (food)=>{
 // console.log(food)
