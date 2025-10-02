@@ -159,6 +159,8 @@ const foodPrice = Number(card.querySelector(".food-price").innerText);
 // console.log(foodTitle,foodImg,foodPrice);
 
 const selectedItem = {
+    id: cart.length +1,
+    
     foodTitle:foodTitle,
     foodImg: foodImg,
     foodPrice:foodPrice
@@ -172,7 +174,7 @@ displayTotal(total);
 const displayTotal=(val)=>{
     document.getElementById("cart-total").innerHTML = val;
 }
-displayCart =  (cart)=>{
+const displayCart =  (cart)=>{
     const cartContainer = document.getElementById("cart-container");
     cartContainer.innerHTML = "";
 
@@ -182,6 +184,7 @@ displayCart =  (cart)=>{
         newItem.innerHTML= `
         <div class="p-1 bg-white flex gap-3 shadow rounded-xl relative">
             <div class="img">
+            <span class="hidden cart-id">${item.id}</span>
               <img
                 src="${item.foodImg}"
                 alt=""
@@ -195,7 +198,7 @@ displayCart =  (cart)=>{
 
               <div class="">
                 <h2 class="text-yellow-600 font-semibold">
-                  $ <span class="price">${item.foodPrice}</span> BDT
+                  $ <span class="item-price">${item.foodPrice}</span> BDT
                 </h2>
               </div>
             </div>
@@ -213,8 +216,13 @@ displayCart =  (cart)=>{
 
 const removeCart=(btn)=>{
     const item = btn.parentNode;
-    const foodTitle =item.querySelector(".food-title").innerText;
-    cart = cart.filter(item => item.foodTitle != foodTitle)
+    // const foodTitle =item.querySelector(".food-title").innerText;
+    const id =Number(item.querySelector(".cart-id").innerText);
+    const foodPrice =Number(item.querySelector(".item-price").innerText);
+    cart = cart.filter(item => item.id != id);
+    total = 0;
+    cart.forEach((item)=> (total += item.foodPrice));
     displayCart(cart);
+    displayTotal(total);
     // console.log(foodTitle);
 }
