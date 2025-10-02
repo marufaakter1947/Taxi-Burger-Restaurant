@@ -41,8 +41,8 @@ const loadRandomData = ()=>{
     .then(data => displayFoods(data.foods));
 }
 
-const cart = [];
-const total =0;
+let cart = [];
+let total =0;
 
 const displayCategory = (categories) => {
 // console.log(categories);
@@ -164,14 +164,20 @@ const selectedItem = {
     foodPrice:foodPrice
 };
 cart.push(selectedItem);
+total=total+foodPrice;
 displayCart(cart);
+displayTotal(total);
+
+};
+const displayTotal=(val)=>{
+    document.getElementById("cart-total").innerHTML = val;
 }
 displayCart =  (cart)=>{
     const cartContainer = document.getElementById("cart-container");
     cartContainer.innerHTML = "";
 
     for(let item of  cart){
-        console.log(item);
+        // console.log(item);
         const newItem =document.createElement("div");
         newItem.innerHTML= `
         <div class="p-1 bg-white flex gap-3 shadow rounded-xl relative">
@@ -183,7 +189,7 @@ displayCart =  (cart)=>{
               />
             </div>
             <div class="flex-1">
-              <h1 class="text-xs font-bold">
+              <h1  class="text-xs font-bold food-title">
                 ${item.foodTitle}
               </h1>
 
@@ -193,7 +199,7 @@ displayCart =  (cart)=>{
                 </h2>
               </div>
             </div>
-            <div
+            <div onclick="removeCart(this)"
               class="w-6 h-6 flex justify-center items-center bg-red-600 rounded-full absolute -top-1 -right-1 text-white cursor-pointer"
             >
               <i class="fa-solid fa-xmark"></i>
@@ -201,5 +207,14 @@ displayCart =  (cart)=>{
           </div>
         `;
         cartContainer.append(newItem);
+
     }
+};
+
+const removeCart=(btn)=>{
+    const item = btn.parentNode;
+    const foodTitle =item.querySelector(".food-title").innerText;
+    cart = cart.filter(item => item.foodTitle != foodTitle)
+    displayCart(cart);
+    // console.log(foodTitle);
 }
